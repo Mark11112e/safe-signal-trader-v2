@@ -43,7 +43,7 @@ async def status() -> StatusResponse:
         status="ok",
         phase="2-source-parser",
         message=(
-            "Phase 2: Source Registry + Parser Framework ready. "
+            "Phase 2: Source Registry + Parser + Ingestion Pipeline ready. "
             "No exchange connections, live trading gated off."
         ),
         components={
@@ -54,5 +54,6 @@ async def status() -> StatusResponse:
             "queue": "schema-ready",
             "parsers": "generic_structured@1.0.0",
             "source_registry": "in-memory",
+            "ingestion": "pipeline+dedup",
         },
     )
