@@ -7,49 +7,48 @@
 | Phase | Inhalt | Status |
 |-------|--------|--------|
 | **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, **Web-Dashboard + start.bat** | ✅ erledigt |
-| **2** | **Source Registry + Parser Framework + Ingestion Pipeline** | **▶ wir sind hier** |
-| 3 | Profiles + Effective Config Snapshots | offen |
-| 4 | Queue Worker + State-Machine (Claim/Lease/Heartbeat) | offen |
-| 5 | Neutral Core (Risk / Entry / Position / Protection) | offen |
-| 6 | Binance Adapter + Testnet (erster Live-Pfad) | offen |
+| **2** | **Source Registry + Parser Framework + Ingestion Pipeline + Telegram-Skeleton** | ✅ erledigt |
+| **3** | **Profiles + Effective Config Snapshots** | ✅ erledigt |
+| **4** | **Queue Worker + State-Machine (Claim/Lease/Heartbeat)** | ✅ erledigt |
+| **5** | **Neutral Core (Risk / Entry / Position / Protection / Conflict)** | ✅ erledigt |
+| **6** | Binance Adapter + Testnet (erster Live-Pfad) | **▶ wir sind hier (nächste)** |
 | 7 | Multi-Source parallel | offen |
 | 8 | BingX Adapter | offen |
 | 9 | WEEX / BloFin Adapter | offen |
 | 10 | Control Bot (read-only → writes mit Auth) | offen |
 | 11 | Partials + Advanced Trailing / Scale-in | offen |
 
-## Phase 1 – Acceptance Criteria
+## Phase 2 – Acceptance (abgeschlossen)
 
-- [x] Repo-Struktur + pyproject.toml (Python ≥3.12)
-- [x] Domain-Modelle (NormalizedSignal, Snapshot, Trade, OrderJob, …)
-- [x] Adapter-Interfaces (Protocols, keine Implementierungen)
-- [x] SQLAlchemy 2 async Modelle + Alembic vorbereitet
-- [x] Config + Live-Trading-Gate (default aus)
-- [x] JSON-Logging + Correlation-ID
-- [x] FastAPI Health / Ready / Status / Docs
-- [x] Web-Dashboard unter `/` (HTML UI)
-- [x] start.bat + start.sh + `python -m signal_bot serve`
-- [x] Docker-Compose Postgres
-- [x] .env.example ohne Secrets
-- [x] Unit-Tests (Domain, Config, Health, Adapters, Queue-Helpers)
-- [x] ARCHITECTURE.md + ADRs + diese ROADMAP
+- [x] SignalParser Protocol + Registry + GenericStructured + Golden-Tests
+- [x] SourceConfig + SourceRegistry
+- [x] Ingestion Pipeline + Dedup (kein Exchange)
+- [x] Telegram-Listener-Skelett (gated OFF, kein Netz)
+
+## Phase 3 – Acceptance
+
+- [x] TradingProfile (frozen, versioniert)
+- [x] ProfileRegistry + Default-Profile
+- [x] build_snapshot → EffectiveConfigSnapshot + stabiler config_hash
+- [x] Unit-Tests
+
+## Phase 4 – Acceptance
+
+- [x] InMemoryJobQueue: enqueue, claim, heartbeat, complete, fail, recover_expired
+- [x] Idempotenz über client_order_id
+- [x] max_attempts → MANUAL_REVIEW
+- [x] Unit-Tests Claim/Lease/Recovery
+
+## Phase 5 – Acceptance
+
+- [x] RiskEngine (limits, lev-cap, exposure, qty + SymbolRules)
+- [x] EntryPlanner (deterministische clientOrderIds, late-entry block)
+- [x] ProtectionPlanner (safer-stop, never worsen, break-even after TP)
+- [x] ConflictResolver (reject_second, scale-in, opposite block, priority, manual_review)
+- [x] TradeStateMachine (gültige Übergänge)
+- [x] Unit-Tests für alle Core-Module
 - [x] Kein Exchange-Live-Code, keine echten Netzcalls
 
-## Phase 2 – Acceptance Criteria (aktueller Lauf)
+## Nächster Schritt (Phase 6)
 
-- [x] `SignalParser` Protocol (`can_parse` / `parse` / `validate`)
-- [x] `ParserRegistry` + Default-Registry
-- [x] `GenericStructuredParser` v1.0.0 (deterministisch, Golden-Tests)
-- [x] Golden-Tests: 1–5 TPs, malformed, market/limit, size_pct, Symbol-Norm
-- [x] `SourceConfig` Domain-Model (frozen)
-- [x] `SourceRegistry` (in-memory, enable/disable, example seed)
-- [x] Status/Dashboard zeigen Phase 2 + Parser/Source-Komponenten
-- [x] **Ingestion Pipeline + Dedup** (RawInboundMessage → NormalizedSignal, kein Exchange)
-- [x] Parser an Source gebunden (source.parser_id → ParserRegistry)
-- [x] Unit-Tests Ingestion: happy path, duplicate, disabled, unknown, garbage, hash (54+)
-- [ ] Telegram-Listener (Telethon) Skelett – nächster kleiner Schritt
-- [ ] Persistente Source-Registry aus DB
-
-## Nächster Schritt
-
-Telegram-Listener-Skelett (reconnect-safe, gated, kein Auto-Start in `serve`) + optional DB-persistierte Sources; danach Phase 3 Profiles/Snapshots.
+Binance Adapter (Testnet) hinter Adapter-Contract, Startup-Gate, No-Network-Guard in Unit-Tests, erster kontrollierter Live-Pfad.
