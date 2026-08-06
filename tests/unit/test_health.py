@@ -23,8 +23,10 @@ def test_ready_endpoint():
 
 def test_status_endpoint():
     data = TestClient(create_app()).get("/status").json()
-    assert data["phase"] == "1-foundation"
+    assert data["phase"] == "2-source-parser"
     assert data["components"]["exchange_adapters"] == "interfaces-only"
+    assert "parsers" in data["components"]
+    assert "source_registry" in data["components"]
 
 
 def test_docs_available():

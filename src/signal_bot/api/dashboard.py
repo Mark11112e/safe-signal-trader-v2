@@ -1,4 +1,4 @@
-"""Web dashboard UI (Phase 1 – status overview)."""
+"""Web dashboard UI (Phase 2 – Source + Parser status overview)."""
 
 from __future__ import annotations
 
@@ -27,6 +27,8 @@ async def dashboard(request: Request) -> HTMLResponse:
         "live_gate": "active" if not settings.is_live_allowed() else "LIVE_ALLOWED",
         "exchange_adapters": "interfaces-only",
         "queue": "schema-ready",
+        "parsers": "generic_structured@1.0.0",
+        "source_registry": "in-memory",
         "ui": "dashboard",
     }
     return templates.TemplateResponse(
@@ -40,7 +42,7 @@ async def dashboard(request: Request) -> HTMLResponse:
             "live_trading_enabled": settings.live_trading_enabled,
             "live_allowed": settings.is_live_allowed(),
             "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
-            "phase": "1-foundation",
+            "phase": "2-source-parser",
             "components": components,
         },
     )

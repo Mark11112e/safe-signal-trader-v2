@@ -40,11 +40,19 @@ async def ready() -> HealthResponse:
 async def status() -> StatusResponse:
     settings = get_settings()
     return StatusResponse(
-        status="ok", phase="1-foundation",
-        message="Scaffold running – no exchange connections, live trading gated off.",
+        status="ok",
+        phase="2-source-parser",
+        message=(
+            "Phase 2: Source Registry + Parser Framework ready. "
+            "No exchange connections, live trading gated off."
+        ),
         components={
-            "api": "up", "config": "loaded",
+            "api": "up",
+            "config": "loaded",
             "live_gate": "active" if not settings.is_live_allowed() else "LIVE_ALLOWED",
-            "exchange_adapters": "interfaces-only", "queue": "schema-ready",
+            "exchange_adapters": "interfaces-only",
+            "queue": "schema-ready",
+            "parsers": "generic_structured@1.0.0",
+            "source_registry": "in-memory",
         },
     )

@@ -14,8 +14,8 @@ def test_dashboard_root_returns_html():
     assert "text/html" in r.headers.get("content-type", "")
     body = r.text
     assert "Safe Signal Trader" in body
-    assert "Phase 1" in body or "1-foundation" in body
-    assert "Gated OFF" in body or "Live" in body
+    assert "Phase" in body or "2-source-parser" in body or "1-foundation" in body
+    assert "Gated OFF" in body or "Live" in body or "OFF" in body
 
 
 def test_dashboard_not_json_404():

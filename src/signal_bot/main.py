@@ -35,7 +35,7 @@ def create_app() -> FastAPI:
         title="Safe Signal Trader",
         description=(
             "Modular, safety-first Telegram signal trading bot. "
-            "Phase 1 foundation – no live exchange connections."
+            "Phase 2: Source Registry + Parser Framework – no live exchange connections."
         ),
         version=__version__,
         lifespan=lifespan,
