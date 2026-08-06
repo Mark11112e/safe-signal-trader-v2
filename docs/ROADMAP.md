@@ -6,8 +6,8 @@
 
 | Phase | Inhalt | Status |
 |-------|--------|--------|
-| **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, **Web-Dashboard + start.bat** | **▶ wir sind hier** |
-| 2 | Source Registry + Parser Framework | offen |
+| **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, **Web-Dashboard + start.bat** | ✅ erledigt |
+| **2** | **Source Registry + Parser Framework** | **▶ wir sind hier** |
 | 3 | Profiles + Effective Config Snapshots | offen |
 | 4 | Queue Worker + State-Machine (Claim/Lease/Heartbeat) | offen |
 | 5 | Neutral Core (Risk / Entry / Position / Protection) | offen |
@@ -35,6 +35,19 @@
 - [x] ARCHITECTURE.md + ADRs + diese ROADMAP
 - [x] Kein Exchange-Live-Code, keine echten Netzcalls
 
-## Nächster Schritt (Phase 2)
+## Phase 2 – Acceptance Criteria (aktueller Lauf)
 
-Source Registry + Parser-Interface (`can_parse` / `parse` / `validate`) mit Golden-Tests.
+- [x] `SignalParser` Protocol (`can_parse` / `parse` / `validate`)
+- [x] `ParserRegistry` + Default-Registry
+- [x] `GenericStructuredParser` v1.0.0 (deterministisch, Golden-Tests)
+- [x] Golden-Tests: 1–5 TPs, malformed, market/limit, size_pct, Symbol-Norm
+- [x] `SourceConfig` Domain-Model (frozen)
+- [x] `SourceRegistry` (in-memory, enable/disable, example seed)
+- [x] Status/Dashboard zeigen Phase 2 + Parser/Source-Komponenten
+- [x] Bestehende Unit-Tests grün (41+)
+- [ ] Telegram-Ingestion (Telethon) – nächster kleiner Schritt
+- [ ] Persistente Source-Registry aus DB
+
+## Nächster Schritt
+
+Telegram-Ingestion-Skelett (reconnect-safe, Dedup raw messages) **ohne** Exchange-Aktion; Parser an Source binden; weitere Golden-Parser optional.
