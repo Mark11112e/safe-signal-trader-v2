@@ -2,7 +2,7 @@
 
 Modular, safety-first Telegram signal trading bot for futures.
 
-**Status:** ▶ **Phase 2 – Source Registry + Parser + Ingestion Pipeline**  
+**Status:** ✅ **Phase 5 complete** – Neutral Core ready · **Next: Phase 6 Binance Testnet**  
 **Python:** ≥ 3.12  
 **Stack:** asyncio · Pydantic v2 · SQLAlchemy 2 async · Alembic · PostgreSQL · FastAPI · Jinja2 · structlog
 
@@ -18,53 +18,21 @@ Architektur: [ARCHITECTURE.md](./ARCHITECTURE.md) · Roadmap: [docs/ROADMAP.md](
 2. Repo klonen / herunterladen
 3. Doppelklick auf **`start.bat`**
 
-Beim ersten Start:
-- wird `.venv` angelegt
-- Dependencies werden installiert (kann 1–2 Minuten dauern)
-- der Server startet
-
-Dann im Browser öffnen:
+Dann im Browser:
 
 | URL | Inhalt |
 |-----|--------|
-| http://127.0.0.1:8000/ | **Dashboard (Web-Oberfläche)** |
+| http://127.0.0.1:8000/ | **Dashboard** |
 | http://127.0.0.1:8000/docs | OpenAPI Docs |
 | http://127.0.0.1:8000/health | Health JSON |
 | http://127.0.0.1:8000/status | Status JSON |
-
-Stoppen: `Ctrl+C` im Fenster.
-
-### Manuell (Terminal)
-
-```bat
-python -m venv .venv
-.venv\Scripts\activate
-pip install -e ".[dev]"
-copy .env.example .env
-set PYTHONPATH=%CD%\src
-python -m signal_bot serve --host 127.0.0.1 --port 8000
-```
 
 ### Linux / macOS
 
 ```bash
 ./start.sh
-# oder:
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-cp .env.example .env
-PYTHONPATH=src python -m signal_bot serve --host 127.0.0.1 --port 8000
+# oder: PYTHONPATH=src python -m signal_bot serve --host 127.0.0.1 --port 8000
 ```
-
----
-
-## Was die Web-Oberfläche zeigt
-
-- Service-Status (Online / Offline)
-- Environment (`UNIT` / …)
-- Live-Trading-Gate (standardmäßig OFF)
-- Komponenten-Status (API, Config, Adapters, Queue, **Parsers**, **Source Registry**, **Ingestion**)
-- Links zu Docs / Health / Status
 
 ---
 
@@ -72,19 +40,18 @@ PYTHONPATH=src python -m signal_bot serve --host 127.0.0.1 --port 8000
 
 ```
 src/signal_bot/
-├── api/
-│   ├── dashboard.py      # Web-UI /
-│   ├── health.py         # /health /ready /status
-│   └── templates/        # HTML Dashboard
-├── config/               # Settings + Live-Gate
-├── domain/               # Models & Enums
-├── parsers/              # SignalParser Protocol + Registry + GenericStructured
-├── sources/              # SourceConfig + SourceRegistry
-├── ingestion/            # RawInboundMessage + Dedup + Pipeline (kein Exchange)
-├── adapters/             # Exchange Protocols (keine Impl.)
-├── infrastructure/       # DB, Logging, Queue
+├── api/            # Dashboard + Health/Status
+├── config/         # Settings + Live-Gate
+├── domain/         # Models & Enums
+├── parsers/        # SignalParser + Registry + GenericStructured
+├── sources/        # SourceConfig + Registry
+├── ingestion/      # Pipeline + Dedup + Telegram-Skeleton
+├── profiles/       # TradingProfile + Snapshot-Builder
+├── core/           # Risk · Entry · Protection · Conflict · Position-SM
+├── adapters/       # Exchange Protocols (keine Impl. vor Phase 6)
+├── infrastructure/ # DB · Logging · Job-Queue (claim/lease)
 ├── main.py
-└── __main__.py           # python -m signal_bot serve
+└── __main__.py
 ```
 
 ---
@@ -95,7 +62,7 @@ src/signal_bot/
 pytest tests/unit -v
 ```
 
-Aktuell: **54+** Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue, **Parsers Golden**, **Source Registry**, **Ingestion Pipeline + Dedup**).
+**81 Unit-Tests** (Domain, Config, Health, Parsers, Sources, Ingestion, Profiles, Queue, Core).
 
 ---
 
@@ -103,12 +70,12 @@ Aktuell: **54+** Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue,
 
 | Phase | Status |
 |-------|--------|
-| 1 Foundation + Web-UI | ✅ erledigt |
-| 2 Source + Parser + Ingestion | **▶ wir sind hier** |
-| 3 Profiles + Snapshots | offen |
-| 4 Queue + State-Machine | offen |
-| 5 Neutral Core | offen |
-| 6 Binance + Testnet | offen |
+| 1 Foundation + Web-UI | ✅ |
+| 2 Source + Parser + Ingestion | ✅ |
+| 3 Profiles + Snapshots | ✅ |
+| 4 Queue + State-Machine | ✅ |
+| 5 Neutral Core | ✅ |
+| 6 Binance + Testnet | **▶ nächste** |
 
 ---
 
