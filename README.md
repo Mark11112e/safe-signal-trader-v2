@@ -2,7 +2,7 @@
 
 Modular, safety-first Telegram signal trading bot for futures.
 
-**Status:** ▶ **Phase 1 – Foundation**  
+**Status:** ▶ **Phase 2 – Source Registry + Parser Framework**  
 **Python:** ≥ 3.12  
 **Stack:** asyncio · Pydantic v2 · SQLAlchemy 2 async · Alembic · PostgreSQL · FastAPI · Jinja2 · structlog
 
@@ -63,7 +63,7 @@ PYTHONPATH=src python -m signal_bot serve --host 127.0.0.1 --port 8000
 - Service-Status (Online / Offline)
 - Environment (`UNIT` / …)
 - Live-Trading-Gate (standardmäßig OFF)
-- Komponenten-Status (API, Config, Adapters, Queue)
+- Komponenten-Status (API, Config, Adapters, Queue, **Parsers**, **Source Registry**)
 - Links zu Docs / Health / Status
 
 ---
@@ -78,6 +78,8 @@ src/signal_bot/
 │   └── templates/        # HTML Dashboard
 ├── config/               # Settings + Live-Gate
 ├── domain/               # Models & Enums
+├── parsers/              # SignalParser Protocol + Registry + GenericStructured
+├── sources/              # SourceConfig + SourceRegistry
 ├── adapters/             # Exchange Protocols (keine Impl.)
 ├── infrastructure/       # DB, Logging, Queue
 ├── main.py
@@ -92,14 +94,16 @@ src/signal_bot/
 pytest -m unit -v
 ```
 
+Aktuell: 41+ Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue, **Parsers Golden**, **Source Registry**).
+
 ---
 
 ## Roadmap
 
 | Phase | Status |
 |-------|--------|
-| 1 Foundation + Web-UI | **▶ wir sind hier** |
-| 2 Source + Parser | offen |
+| 1 Foundation + Web-UI | ✅ erledigt |
+| 2 Source + Parser | **▶ wir sind hier** |
 | 3 Profiles + Snapshots | offen |
 | 4 Queue + State-Machine | offen |
 | 5 Neutral Core | offen |
