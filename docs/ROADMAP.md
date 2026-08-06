@@ -6,7 +6,7 @@
 
 | Phase | Inhalt | Status |
 |-------|--------|--------|
-| **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, Web-App+start.bat | **▶ wir sind hier** |
+| **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, **Web-Dashboard + start.bat** | **▶ wir sind hier** |
 | 2 | Source Registry + Parser Framework | offen |
 | 3 | Profiles + Effective Config Snapshots | offen |
 | 4 | Queue Worker + State-Machine (Claim/Lease/Heartbeat) | offen |
@@ -27,6 +27,7 @@
 - [x] Config + Live-Trading-Gate (default aus)
 - [x] JSON-Logging + Correlation-ID
 - [x] FastAPI Health / Ready / Status / Docs
+- [x] Web-Dashboard unter `/` (HTML UI)
 - [x] start.bat + start.sh + `python -m signal_bot serve`
 - [x] Docker-Compose Postgres
 - [x] .env.example ohne Secrets
