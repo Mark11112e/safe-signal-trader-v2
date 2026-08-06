@@ -22,6 +22,7 @@ class ProtectionPlan:
 
 
 def _is_safer(side: Side, current: Decimal, candidate: Decimal) -> bool:
+    """Return True if candidate is equal or better (more protective) than current."""
     if side == Side.LONG:
         return candidate >= current
     return candidate <= current
@@ -36,11 +37,26 @@ class ProtectionPlanner:
         entry_price: Decimal | None = None,
     ) -> ProtectionPlan:
         sl = signal.stop_loss
-        if sl is None and snapshot.sl_mode == or_none(snapshot):
-            return ProtectionPlan(None, None, "sl_mode=none", False)
+        if sl is None and snapshot.sl_mode == SlMode.NONE:
+            return ProtectionPlan(
+                initial_stop=None,
+                safer_stop=None,
+                reason="sl_mode=none",
+                is_protected=False,
+            )
         if sl is None:
-            return ProtectionPlan(None, None, "missing stop_loss", False)
-        return ProtectionPlan(sl, sl, "signal SL", True)
+            return ProtectionPlan(
+                initial_stop=None,
+                safer_stop=None,
+                reason="missing stop_loss",
+                is_protected=False,
+            )
+        return ProtectionPlan(
+            initial_stop=sl,
+            safer_stop=sl,
+            reason="signal SL",
+            is_protected=True,
+        )
 
     def after_tp(
         self,
@@ -52,8 +68,10 @@ class ProtectionPlanner:
         snapshot: EffectiveConfigSnapshot,
         previous_tp_price: Decimal | None = None,
     ) -> ProtectionPlan:
+        """Move SL according to sl_mode; never worsen."""
         candidate = current_stop
         mode = snapshot.sl_mode
+
         if mode == SlMode.BREAK_EVEN:
             candidate = entry_price
         elif mode == SlMode.MOVE_TO_PREVIOUS_TP and previous_tp_price is not None:
@@ -62,15 +80,19 @@ class ProtectionPlanner:
             candidate = entry_price
         elif mode == SlMode.NONE:
             candidate = current_stop
+
         if not _is_safer(side, current_stop, candidate):
             candidate = current_stop
-        return ProtectionPlan(current_stop, candidate, f"after_tp mode={mode.value}", True)
+
+        return ProtectionPlan(
+            initial_stop=current_stop,
+            safer_stop=candidate,
+            reason=f"after_tp mode={mode.value}",
+            is_protected=True,
+        )
 
     def never_worsen(self, side: Side, current: Decimal, proposed: Decimal) -> Decimal:
+        """Clamp proposed SL so it never worsens protection."""
         if _is_safer(side, current, proposed):
             return proposed
         return current
-
-
-def or_none(snapshot: EffectiveConfigSnapshot) -> bool:
-    return snapshot.sl_mode == SlMode.NONE
