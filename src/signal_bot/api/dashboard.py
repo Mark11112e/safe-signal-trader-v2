@@ -29,6 +29,7 @@ async def dashboard(request: Request) -> HTMLResponse:
         "queue": "schema-ready",
         "parsers": "generic_structured@1.0.0",
         "source_registry": "in-memory",
+        "ingestion": "pipeline+dedup",
         "ui": "dashboard",
     }
     return templates.TemplateResponse(
