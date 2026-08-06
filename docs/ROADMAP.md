@@ -7,7 +7,7 @@
 | Phase | Inhalt | Status |
 |-------|--------|--------|
 | **1** | **Foundation:** Scaffold, Models, Config, DB+Alembic, Tests, Logging, Queue-Basis, **Web-Dashboard + start.bat** | ✅ erledigt |
-| **2** | **Source Registry + Parser Framework** | **▶ wir sind hier** |
+| **2** | **Source Registry + Parser Framework + Ingestion Pipeline** | **▶ wir sind hier** |
 | 3 | Profiles + Effective Config Snapshots | offen |
 | 4 | Queue Worker + State-Machine (Claim/Lease/Heartbeat) | offen |
 | 5 | Neutral Core (Risk / Entry / Position / Protection) | offen |
@@ -44,10 +44,12 @@
 - [x] `SourceConfig` Domain-Model (frozen)
 - [x] `SourceRegistry` (in-memory, enable/disable, example seed)
 - [x] Status/Dashboard zeigen Phase 2 + Parser/Source-Komponenten
-- [x] Bestehende Unit-Tests grün (41+)
-- [ ] Telegram-Ingestion (Telethon) – nächster kleiner Schritt
+- [x] **Ingestion Pipeline + Dedup** (RawInboundMessage → NormalizedSignal, kein Exchange)
+- [x] Parser an Source gebunden (source.parser_id → ParserRegistry)
+- [x] Unit-Tests Ingestion: happy path, duplicate, disabled, unknown, garbage, hash (54+)
+- [ ] Telegram-Listener (Telethon) Skelett – nächster kleiner Schritt
 - [ ] Persistente Source-Registry aus DB
 
 ## Nächster Schritt
 
-Telegram-Ingestion-Skelett (reconnect-safe, Dedup raw messages) **ohne** Exchange-Aktion; Parser an Source binden; weitere Golden-Parser optional.
+Telegram-Listener-Skelett (reconnect-safe, gated, kein Auto-Start in `serve`) + optional DB-persistierte Sources; danach Phase 3 Profiles/Snapshots.
