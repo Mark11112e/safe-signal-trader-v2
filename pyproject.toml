@@ -18,6 +18,7 @@ dependencies = [
     "alembic>=1.13",
     "fastapi>=0.111",
     "uvicorn[standard]>=0.30",
+    "jinja2>=3.1",
     "structlog>=24.1",
     "python-dotenv>=1.0",
     "httpx>=0.27",
@@ -39,10 +40,18 @@ signal-bot = "signal_bot.__main__:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/signal_bot"]
 
+# Ensure src layout is importable in editable installs
+[tool.hatch.build.targets.wheel.force-include]
+"src/signal_bot" = "signal_bot"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/signal_bot", "README.md", "ARCHITECTURE.md", "docs"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
+pythonpath = ["src"]
 markers = [
     "unit: pure unit tests (no network, no DB)",
     "integration: requires DB / docker",
