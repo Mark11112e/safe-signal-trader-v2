@@ -1,4 +1,4 @@
-"""FastAPI application entry – Dashboard UI + Health / Status / Docs."""
+"""FastAPI application entry – Dashboard UI + Health / Status / Docs + Offline Demo."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from fastapi import FastAPI
 
 from signal_bot import __version__
 from signal_bot.api.dashboard import router as dashboard_router
+from signal_bot.api.demo import router as demo_router
 from signal_bot.api.health import router as health_router
 from signal_bot.config import get_settings
 from signal_bot.infrastructure.logging import configure_logging, get_logger
@@ -35,7 +36,7 @@ def create_app() -> FastAPI:
         title="Safe Signal Trader",
         description=(
             "Modular, safety-first Telegram signal trading bot. "
-            "Phase 2: Source + Parser + Ingestion Pipeline – no live exchange connections."
+            "Offline demo UI: parse signals, risk check, queue playground – no live exchange."
         ),
         version=__version__,
         lifespan=lifespan,
@@ -44,6 +45,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(dashboard_router)
     app.include_router(health_router)
+    app.include_router(demo_router)
     return app
 
 
