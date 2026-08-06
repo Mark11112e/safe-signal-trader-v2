@@ -2,7 +2,7 @@
 
 Modular, safety-first Telegram signal trading bot for futures.
 
-**Status:** ▶ **Phase 2 – Source Registry + Parser Framework**  
+**Status:** ▶ **Phase 2 – Source Registry + Parser + Ingestion Pipeline**  
 **Python:** ≥ 3.12  
 **Stack:** asyncio · Pydantic v2 · SQLAlchemy 2 async · Alembic · PostgreSQL · FastAPI · Jinja2 · structlog
 
@@ -63,7 +63,7 @@ PYTHONPATH=src python -m signal_bot serve --host 127.0.0.1 --port 8000
 - Service-Status (Online / Offline)
 - Environment (`UNIT` / …)
 - Live-Trading-Gate (standardmäßig OFF)
-- Komponenten-Status (API, Config, Adapters, Queue, **Parsers**, **Source Registry**)
+- Komponenten-Status (API, Config, Adapters, Queue, **Parsers**, **Source Registry**, **Ingestion**)
 - Links zu Docs / Health / Status
 
 ---
@@ -80,6 +80,7 @@ src/signal_bot/
 ├── domain/               # Models & Enums
 ├── parsers/              # SignalParser Protocol + Registry + GenericStructured
 ├── sources/              # SourceConfig + SourceRegistry
+├── ingestion/            # RawInboundMessage + Dedup + Pipeline (kein Exchange)
 ├── adapters/             # Exchange Protocols (keine Impl.)
 ├── infrastructure/       # DB, Logging, Queue
 ├── main.py
@@ -91,10 +92,10 @@ src/signal_bot/
 ## Tests
 
 ```bash
-pytest -m unit -v
+pytest tests/unit -v
 ```
 
-Aktuell: 41+ Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue, **Parsers Golden**, **Source Registry**).
+Aktuell: **54+** Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue, **Parsers Golden**, **Source Registry**, **Ingestion Pipeline + Dedup**).
 
 ---
 
@@ -103,7 +104,7 @@ Aktuell: 41+ Unit-Tests (Domain, Config, Health, Dashboard, Adapters, Queue, **P
 | Phase | Status |
 |-------|--------|
 | 1 Foundation + Web-UI | ✅ erledigt |
-| 2 Source + Parser | **▶ wir sind hier** |
+| 2 Source + Parser + Ingestion | **▶ wir sind hier** |
 | 3 Profiles + Snapshots | offen |
 | 4 Queue + State-Machine | offen |
 | 5 Neutral Core | offen |
