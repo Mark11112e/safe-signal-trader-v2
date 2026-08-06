@@ -27,6 +27,7 @@ def test_status_endpoint():
     assert data["components"]["exchange_adapters"] == "interfaces-only"
     assert "parsers" in data["components"]
     assert "source_registry" in data["components"]
+    assert data["components"]["ingestion"] == "pipeline+dedup"
 
 
 def test_docs_available():
