@@ -1,0 +1,30 @@
+"""FastAPI application entry – Health / Status / Docs."""
+from __future__ import annotations
+from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator
+from fastapi import FastAPI
+from signal_bot import __version__
+from signal_bot.api.health import router as health_router
+from signal_bot.config import get_settings
+from signal_bot.infrastructure.logging import configure_logging, get_logger
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    settings = get_settings()
+    configure_logging(json_logs=settings.log_json, level=settings.log_level)
+    log = get_logger("signal_bot.main")
+    settings.require_safe_mode()
+    log.info("app_starting", version=__version__, env=settings.app_env.value, live_allowed=settings.is_live_allowed())
+    yield
+    log.info("app_shutdown")
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="Safe Signal Trader",
+        description="Modular, safety-first Telegram signal trading bot. Phase 1 foundation – no live exchange connections.",
+        version=__version__, lifespan=lifespan, docs_url="/docs", redoc_url="/redoc",
+    )
+    app.include_router(health_router)
+    return app
+
+app = create_app()
