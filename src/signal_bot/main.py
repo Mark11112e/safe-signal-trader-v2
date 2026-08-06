@@ -9,7 +9,6 @@ from fastapi import FastAPI
 
 from signal_bot import __version__
 from signal_bot.api.dashboard import router as dashboard_router
-from signal_bot.api.demo import router as demo_router
 from signal_bot.api.health import router as health_router
 from signal_bot.config import get_settings
 from signal_bot.infrastructure.logging import configure_logging, get_logger
@@ -45,7 +44,13 @@ def create_app() -> FastAPI:
     )
     app.include_router(dashboard_router)
     app.include_router(health_router)
-    app.include_router(demo_router)
+    # Offline demo API (optional – skip if module not present in partial downloads)
+    try:
+        from signal_bot.api.demo import router as demo_router
+
+        app.include_router(demo_router)
+    except ImportError:
+        pass
     return app
 
 
