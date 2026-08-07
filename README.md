@@ -2,7 +2,7 @@
 
 Modular, safety-first Telegram signal trading bot for futures.
 
-**Status:** ✅ **Phase 5 complete** – Neutral Core ready · **Next: Phase 6 Binance Testnet**  
+**Status:** ✅ **Phase 5 complete** – Neutral Core + Tests · **Next: Phase 6 Binance Testnet**  
 **Python:** ≥ 3.12  
 **Stack:** asyncio · Pydantic v2 · SQLAlchemy 2 async · Alembic · PostgreSQL · FastAPI · Jinja2 · structlog
 
@@ -62,7 +62,7 @@ src/signal_bot/
 pytest tests/unit -v
 ```
 
-**81 Unit-Tests** (Domain, Config, Health, Parsers, Sources, Ingestion, Profiles, Queue, Core).
+**91 Unit-Tests** (Domain, Config, Health, Parsers, Sources, Ingestion, Profiles, Queue, Core Risk/Entry/Protection/Conflict/SM).
 
 ---
 

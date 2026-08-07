@@ -46,7 +46,7 @@
 - [x] ProtectionPlanner (safer-stop, never worsen, break-even after TP)
 - [x] ConflictResolver (reject_second, scale-in, opposite block, priority, manual_review)
 - [x] TradeStateMachine (gültige Übergänge)
-- [x] Unit-Tests für alle Core-Module
+- [x] Unit-Tests für alle Core-Module (+ Profiles + Queue Memory)
 - [x] Kein Exchange-Live-Code, keine echten Netzcalls
 
 ## Nächster Schritt (Phase 6)

@@ -1,7 +1,7 @@
 # Zielarchitektur – Safe Signal Trader v2
 
-**Stand:** 2026-08-06  
-**Status:** Phase 5 complete – Neutral Core ready. Next: Phase 6 Binance Testnet.
+**Stand:** 2026-08-07  
+**Status:** Phase 5 complete – Neutral Core + full unit tests (91). Next: Phase 6 Binance Testnet.
 
 Siehe [docs/ROADMAP.md](./docs/ROADMAP.md) für Fortschritt.
 
