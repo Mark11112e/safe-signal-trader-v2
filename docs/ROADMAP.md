@@ -11,35 +11,14 @@
 | **3** | **Profiles + Effective Config Snapshots** | ✅ erledigt |
 | **4** | **Queue Worker + State-Machine (Claim/Lease/Heartbeat)** | ✅ erledigt |
 | **5** | **Neutral Core (Risk / Entry / Position / Protection / Conflict)** | ✅ erledigt |
-| **6** | Binance Adapter + Testnet (erster Live-Pfad) | **▶ wir sind hier (nächste)** |
+| **6** | Binance Adapter + Testnet (erster Live-Pfad) | **▶ wir sind hier** (Mock + Capabilities + Tests erledigt; real Testnet Client folgt) |
 | 7 | Multi-Source parallel | offen |
 | 8 | BingX Adapter | offen |
 | 9 | WEEX / BloFin Adapter | offen |
 | 10 | Control Bot (read-only → writes mit Auth) | offen |
 | 11 | Partials + Advanced Trailing / Scale-in | offen |
 
-## Phase 2 – Acceptance (abgeschlossen)
-
-- [x] SignalParser Protocol + Registry + GenericStructured + Golden-Tests
-- [x] SourceConfig + SourceRegistry
-- [x] Ingestion Pipeline + Dedup (kein Exchange)
-- [x] Telegram-Listener-Skelett (gated OFF, kein Netz)
-
-## Phase 3 – Acceptance
-
-- [x] TradingProfile (frozen, versioniert)
-- [x] ProfileRegistry + Default-Profile
-- [x] build_snapshot → EffectiveConfigSnapshot + stabiler config_hash
-- [x] Unit-Tests
-
-## Phase 4 – Acceptance
-
-- [x] InMemoryJobQueue: enqueue, claim, heartbeat, complete, fail, recover_expired
-- [x] Idempotenz über client_order_id
-- [x] max_attempts → MANUAL_REVIEW
-- [x] Unit-Tests Claim/Lease/Recovery
-
-## Phase 5 – Acceptance
+## Phase 5 – Acceptance (abgeschlossen)
 
 - [x] RiskEngine (limits, lev-cap, exposure, qty + SymbolRules)
 - [x] EntryPlanner (deterministische clientOrderIds, late-entry block)
@@ -49,6 +28,17 @@
 - [x] Unit-Tests für alle Core-Module (+ Profiles + Queue Memory)
 - [x] Kein Exchange-Live-Code, keine echten Netzcalls
 
-## Nächster Schritt (Phase 6)
+## Phase 6 – Fortschritt (dieser Lauf)
 
-Binance Adapter (Testnet) hinter Adapter-Contract, Startup-Gate, No-Network-Guard in Unit-Tests, erster kontrollierter Live-Pfad.
+- [x] `BinanceCapabilities` (exchange_id, user-stream, reduce-only, trailing, hedge, max_lev, replace)
+- [x] `MockBinanceAdapter` – vollständige Protocol-Implementierung, **0 Netzwerk**, Idempotenz via client_order_id, Position/Balance/Stop Tracking
+- [x] Unit-Tests (Protocol conformance, Market/Account/Execution/Protection/Streaming/PnL, Idempotenz)
+- [x] Status/Health aktualisiert auf `6-binance-prep`
+- [x] ADR-0003: Binance first + Mock-first
+- [ ] Real Binance Testnet HTTP Client (signiert, httpx) + No-Network-Guard + Startup-Gate
+- [ ] Adapter-Factory / Registry
+- [ ] Erster kontrollierter Testnet-Pfad (gated)
+
+## Nächster kleiner Schritt
+
+Real Testnet Client hinter `APP_ENV=TESTNET_DEMO` + Credential-Refs (Env only) + explicit enable; Unit-Tests mit HTTP-Mocks; kein Live.
