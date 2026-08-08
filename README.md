@@ -2,11 +2,12 @@
 
 Modular, safety-first Telegram signal trading bot for futures.
 
-**Status:** ✅ **Phase 5 complete** – Neutral Core + Tests · **Next: Phase 6 Binance Testnet**  
+**Status:** ✅ **Phase 5 complete** · **Phase 6 in progress** – Binance Mock Adapter + Capabilities · **Next: real Testnet Client (gated)**  
 **Python:** ≥ 3.12  
 **Stack:** asyncio · Pydantic v2 · SQLAlchemy 2 async · Alembic · PostgreSQL · FastAPI · Jinja2 · structlog
 
-> **Wichtig:** Kein Exchange-Live-Code, keine Live-Verbindungen. Live-Trading ist standardmäßig **aus** und braucht explizite Freigabe + Startup-Gate.
+> **Wichtig:** Kein Exchange-Live-Code ohne Gate. Live-Trading ist standardmäßig **aus** und braucht explizite Freigabe + Startup-Gate.  
+> Mock-Adapter hat **0 Netzwerk** – sicher für Tests & Offline-Demo.
 
 Architektur: [ARCHITECTURE.md](./ARCHITECTURE.md) · Roadmap: [docs/ROADMAP.md](./docs/ROADMAP.md) · ADRs: [docs/adr/](./docs/adr/)
 
@@ -48,7 +49,8 @@ src/signal_bot/
 ├── ingestion/      # Pipeline + Dedup + Telegram-Skeleton
 ├── profiles/       # TradingProfile + Snapshot-Builder
 ├── core/           # Risk · Entry · Protection · Conflict · Position-SM
-├── adapters/       # Exchange Protocols (keine Impl. vor Phase 6)
+├── adapters/       # Protocols + binance/ (Mock + Capabilities)
+│   └── binance/    # MockBinanceAdapter (0 network), BinanceCapabilities
 ├── infrastructure/ # DB · Logging · Job-Queue (claim/lease)
 ├── main.py
 └── __main__.py
@@ -62,7 +64,7 @@ src/signal_bot/
 pytest tests/unit -v
 ```
 
-**91 Unit-Tests** (Domain, Config, Health, Parsers, Sources, Ingestion, Profiles, Queue, Core Risk/Entry/Protection/Conflict/SM).
+**100+ Unit-Tests** (Domain, Config, Health, Parsers, Sources, Ingestion, Profiles, Queue, Core, **Binance Mock**).
 
 ---
 
@@ -75,7 +77,7 @@ pytest tests/unit -v
 | 3 Profiles + Snapshots | ✅ |
 | 4 Queue + State-Machine | ✅ |
 | 5 Neutral Core | ✅ |
-| 6 Binance + Testnet | **▶ nächste** |
+| 6 Binance + Testnet | **▶ wir sind hier** (Mock fertig) |
 
 ---
 
@@ -87,6 +89,7 @@ pytest tests/unit -v
 4. Kein blinder Retry  
 5. Position nie ungeschützt  
 6. Live default aus  
+7. Mock-Adapter zuerst (0 Netz)  
 
 ## Lizenz
 
