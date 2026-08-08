@@ -1,7 +1,7 @@
 # Zielarchitektur – Safe Signal Trader v2
 
-**Stand:** 2026-08-07  
-**Status:** Phase 5 complete – Neutral Core + full unit tests (91). Next: Phase 6 Binance Testnet.
+**Stand:** 2026-08-08  
+**Status:** Phase 5 complete – Neutral Core. Phase 6 started: Binance Mock Adapter + Capabilities (0 network). Next: real Testnet client gated.
 
 Siehe [docs/ROADMAP.md](./docs/ROADMAP.md) für Fortschritt.
 
@@ -20,19 +20,19 @@ Siehe [docs/ROADMAP.md](./docs/ROADMAP.md) für Fortschritt.
 11. Nur Tests + kleine Schritte.
 12. Production / Demo / Live getrennt.
 
-## Module (Phase 1–5)
+## Module (Phase 1–6)
 
 | Bereich | Pfad | Status |
 |---------|------|--------|
 | Domain | `domain/` | ✅ |
-| Adapter Protocols | `adapters/` | ✅ interfaces only |
+| Adapter Protocols | `adapters/interfaces.py` | ✅ |
+| Binance Mock + Capabilities | `adapters/binance/` | ✅ Phase 6 (0 network) |
 | Parsers | `parsers/` | ✅ |
 | Sources | `sources/` | ✅ |
 | Ingestion + Dedup | `ingestion/` | ✅ |
-| Telegram Skeleton | `ingestion/telegram/` | ✅ gated OFF |
 | Profiles + Snapshots | `profiles/` | ✅ |
 | Job Queue (memory) | `infrastructure/queue/` | ✅ claim/lease |
 | Risk / Entry / Protection / Conflict / SM | `core/` | ✅ pure, no I/O |
 | Web / Health | `api/` | ✅ |
 
-Live-Trading ist standardmäßig aus. Kein Exchange-Code vor Phase 6.
+Live-Trading ist standardmäßig aus. Real Exchange-HTTP nur hinter explizitem Gate (Phase 6 Fortsetzung).
